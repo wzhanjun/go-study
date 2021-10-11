@@ -1,6 +1,4 @@
-## go-gin-example
-
-跟着煎鱼学gin系列学习代码
+## 
 
 ### 使用Docker部署应用
 
@@ -33,7 +31,3 @@ docker run --link mysql:mysql -p 8000:8000 gin-blog-docker-scratch
 docker run --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=rootroot -v /data/docker-mysql:/var/lib/mysql -d mysql:5.7
 
 ```
-
-### 来源
-
-- https://eddycjy.com/go-categories/
