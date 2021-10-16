@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/gojek/heimdall/v7/httpclient"
+	"github.com/wzhanjun/stock/config"
 )
 
 var (
@@ -26,11 +27,9 @@ func (xq XQApiClient) GetQuote(code string) (*QuoteResp, error) {
 	if err != nil {
 		return nil, err
 	}
-	// xq_a_token=cddd72fc3c69466c73a5a4d4ed47425fd46595e7;
-	request.AddCookie(&http.Cookie{
-		Name:  "xq_a_token",
-		Value: "cddd72fc3c69466c73a5a4d4ed47425fd46595e7",
-	})
+
+	// 设置请求cookie
+	xq.setRequestCookie(request)
 
 	response, err := xq.httpClient.Do(request)
 	if err != nil {
@@ -43,6 +42,21 @@ func (xq XQApiClient) GetQuote(code string) (*QuoteResp, error) {
 	}
 
 	return data, nil
+}
+
+func (xq XQApiClient) setRequestCookie(req *http.Request) error {
+
+	cfg, err := config.NewConfig()
+	if err != nil {
+		return err
+	}
+
+	req.AddCookie(&http.Cookie{
+		Name:  "xq_a_token",
+		Value: cfg.XueQiuConfig.CookieXQAToken,
+	})
+
+	return nil
 }
 
 func (xq XQApiClient) parseResponse(resp *http.Response, data interface{}) error {
